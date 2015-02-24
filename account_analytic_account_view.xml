@@ -1,0 +1,154 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+        <!-- ======================================================================================================== -->
+        <record model="ir.ui.view" id="account_analytic_account_remove_Invoice_Price_Rate_per_User">
+            <field name="name">account.analytic.account.remove.Invoice.Price.Rate.per.User</field>
+            <field name="model">account.analytic.account</field>
+            <field name="inherit_id" ref="analytic_user_function.view_account_analytic_account_form_inherit"/>
+            <field name="arch" type="xml">
+                <xpath expr="(//div[@name='user_function_price'])" position="attributes">
+                    <attribute name='invisible'>1</attribute> 
+                </xpath>
+            </field>
+        </record>
+        <!-- ======================================================================================================== -->
+        <record model="ir.ui.view" id="account_analytic_account_invoicing">
+            <field name="name">account.analytic.account.invoicing</field>
+            <field name="model">account.analytic.account</field>
+            <field name="inherit_id" ref="account_analytic_analysis.account_analytic_account_form_form"/>
+            <field name="arch" type="xml">            
+                <xpath expr="(//separator[@string='Recurring Invoices'])" position="before">
+                    <separator string="Invoicing Support Contract"/>
+                    <div>
+                        <group>
+                            <field name="number_of_timesheets"/>
+                            <field name="total_invoice_amount"/>
+                        </group>
+                        <group class="oe_timesheet_action" attrs="{'invisible': ['|',('invoice_on_timesheets','=',False),('type','=','template')]}">
+                            <!-- 
+                            <button name="hr_to_invoice_timesheets" type="object" class="oe_link" string="⇒ Invoice" attrs="{'invisible':[('total_invoice_amount','=',0)]}" /> 
+                            <button name="387" string="⇒ Timesheets" type="action" class="oe_link" attrs="{'invisible':[('number_of_timesheets','=',0)]}" context="{'default_account_id': active_id,'search_default_account_id': active_id}"/>
+                            -->
+                        </group>
+                        <group>
+                            <button name="create_invoice" type="object" string="Create invoice" class="oe_highlight" attrs="{'invisible':[('total_invoice_amount','=',0)]}"/>
+                        </group>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+        <!-- ======================================================================================================== -->
+        <record model="ir.ui.view" id="account_analytic_account_team_form_view">
+            <field name="name">team.form</field>
+            <field name="model">account.analytic.account.team</field>
+            <field name="arch" type="xml">
+                <form string="Team Form">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="compagny"/>
+                            <field name="active"/>
+                            <field name="users"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record model="ir.actions.act_window" id="contract_team_action">
+            <field name="name">Contract Teams</field>
+            <field name="res_model">account.analytic.account.team</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="contract_team_menu" name="Contract Teams" parent="base.menu_base_config" action="contract_team_action"/>
+        <!-- ======================================================================================================== -->
+        <record model="ir.ui.view" id="account_analytic_account_type_form_view">
+            <field name="name">type.form</field>
+            <field name="model">account.analytic.account.type</field>
+            <field name="arch" type="xml">
+                <form string="Type Form">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="timesheet_product"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record model="ir.actions.act_window" id="contract_type_action">
+            <field name="name">Contract Types</field>
+            <field name="res_model">account.analytic.account.type</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="contract_type_menu" name="Contract Types" parent="base.menu_base_config" action="contract_type_action"/>
+        <!-- ======================================================================================================== -->
+        <record model="ir.ui.view" id="account_analytic_account_improvements">
+            <field name="name">account_analytic_account_improvements</field>
+            <field name="model">account.analytic.account</field>
+            <field name="inherit_id" ref="analytic.view_account_analytic_account_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='contract_page']/group[@name='contract']" position="before">
+                    <group>
+                        <field name="contract_type"/>
+                        <field name="contract_type_product_name"/>
+                        <field name="timesheet_product_price"/>
+                        <field name="contract_team"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+        <!-- ======================================================================================================== -->
+        
+        <record model="ir.ui.view" id="account_analytic_account_replace_units_consumed_and_remaining">
+            <field name="name">account.analytic.account.replace.units.consumed.and.remaining</field>
+            <field name="model">account.analytic.account</field>
+            <field name="inherit_id" ref="account_analytic_analysis.account_analytic_account_form_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div/div[@class='oe_grey']" position="replace"/>
+                <xpath expr="//div/div[@class='oe_grey']" position="replace"/>
+                <xpath expr="//field[@name='quantity_max']" position="after">
+                        <div attrs="{'invisible': [('computed_units_consumed','=',0)]}" class="oe_grey">
+                            <field name="computed_units_consumed" class="oe_inline"/> Units Consumed
+                        </div>
+                        <div attrs="{'invisible': [('computed_units_remaining','=',0)]}" class="oe_grey">
+                            <field name="computed_units_remaining" class="oe_inline"/> Units Remaining
+                        </div>
+                </xpath>                
+            </field>
+        </record>
+
+		<!-- ADD THE COMPUTED FIELD -->
+		<record id="account_analytic_computed_remaining" model="ir.ui.view">
+            <field name="name">account.analytic.account.tree</field>
+            <field name="model">account.analytic.account</field>
+			<field name="inherit_id" ref="account_analytic_analysis.view_account_analytic_account_tree_c2c_3"/>
+            <field name="arch" type="xml">
+				<xpath expr="//field[@name='remaining_hours']" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</xpath>
+            </field>
+        </record>
+
+		<!-- COLOR THE COMPUTED FIELD IN RED -->
+		<record id="account_analytic_computed_remaining" model="ir.ui.view">
+            <field name="name">account.analytic.account.tree</field>
+            <field name="model">account.analytic.account</field>
+			<field name="inherit_id" ref="account.view_account_analytic_account_list"/>
+            <field name="arch" type="xml">
+				<tree position="attributes">
+					<attribute name="colors">red:state=='pending';grey:state in ('cancelled','close');blue:type=='view';blue:computed_units_remaining &lt; 0</attribute>
+                </tree>
+				<xpath expr="//field[@name='date']" position="after">
+					<field name="computed_units_remaining"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>
