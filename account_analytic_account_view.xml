@@ -125,14 +125,15 @@
         </record>
 
 		<!-- ADD THE COMPUTED FIELD -->
-		<record id="account_analytic_computed_remaining" model="ir.ui.view">
+		<record id="account_analytic_remove_remaining_hours" model="ir.ui.view">
             <field name="name">account.analytic.account.tree</field>
             <field name="model">account.analytic.account</field>
 			<field name="inherit_id" ref="account_analytic_analysis.view_account_analytic_account_tree_c2c_3"/>
             <field name="arch" type="xml">
-				<xpath expr="//field[@name='remaining_hours']" position="attributes">
-					<attribute name="invisible">1</attribute>
-				</xpath>
+				<!-- Remove the remaining hours -->
+				<xpath expr="//field[@name='remaining_hours']" position="replace"/>
+				<!-- Remove the contract manager -->
+				<xpath expr="//field[@name='manager_id']" position="replace"/>
             </field>
         </record>
 
@@ -142,11 +143,21 @@
             <field name="model">account.analytic.account</field>
 			<field name="inherit_id" ref="account.view_account_analytic_account_list"/>
             <field name="arch" type="xml">
+				<!-- Set in orange if units_remaining <= 0 -->
 				<tree position="attributes">
-					<attribute name="colors">red:state=='pending';grey:state in ('cancelled','close');blue:type=='view';blue:computed_units_remaining &lt; 0</attribute>
+					<attribute name="colors">red:state=='pending';grey:state in ('cancelled','close');blue:type=='view';orange:computed_units_remaining &lt; 0</attribute>
                 </tree>
-				<xpath expr="//field[@name='date']" position="after">
+				<!-- Add the contract type -->
+				<xpath expr="//field[@name='complete_name']" position="before">
+					<field name="contract_type"/>
+                </xpath>
+				<!-- Add the computed units remaining -->
+				<xpath expr="//field[@name='last_invoice_date']" position="after">
 					<field name="computed_units_remaining"/>
+                </xpath>
+				<!-- Add the team -->
+				<xpath expr="//field[@name='contract_type']" position="after">
+					<field name="contract_team"/>
                 </xpath>
             </field>
         </record>
