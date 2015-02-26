@@ -21,7 +21,7 @@ class account_analytic_account_improvements(models.Model):
     timesheet_product_price = fields.Float("Price")
     is_baseline_contract = fields.Boolean("Baseline Contract")
     contract_type = fields.Many2one('account.analytic.account.type', string="Type", index=True, required=True)
-    contract_team = fields.Many2one('account.analytic.account.team', string="Team", index=True, required=True)
+    contract_team = fields.Many2one('account.analytic.account.team', string="Team", index=True)
     contract_type_product_name = fields.Char(compute='_get_product_name',string="Product name", store=False)
     number_of_timesheets = fields.Integer(compute='_compute_number_of_timesheets',string="Number of timesheets", store=False)
     total_invoice_amount = fields.Float(compute='_compute_total_invoice_amount',string="Total invoice amount", store=False)
