@@ -18,7 +18,7 @@ class account_analytic_account_type(models.Model):
     
 class account_analytic_account_improvements(models.Model):
     _inherit = ['account.analytic.account']
-    timesheet_product_price = fields.Float("Price")
+    timesheet_product_price = fields.Float("Hourly Rate")
     contract_type = fields.Many2one('account.analytic.account.type', string="Type", index=True, required=True)
     contract_team = fields.Many2one('account.analytic.account.team', string="Team", index=True)
     contract_type_product_name = fields.Char(compute='_get_product_name',string="Product name", store=False)
