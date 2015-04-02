@@ -1,4 +1,4 @@
-﻿from openerp import models, fields, api
+from openerp import models, fields, api
 import datetime
 from datetime import date
 
@@ -64,18 +64,24 @@ class account_analytic_account_improvements(models.Model):
     @api.one
     @api.onchange('contract_type')  
     def _compute_total_invoice_amount(self):
-        cr = self.env.cr
-        uid = self.env.user.id
-        account_analytic_line_obj = self.pool.get('account.analytic.line')
-        account_analytic_lines = account_analytic_line_obj.search(cr, uid, [('invoice_id', '=', False),('account_id','=',self.id)])
-        total=0
-        if account_analytic_lines:
-            for val in account_analytic_line_obj.browse(cr, uid, account_analytic_lines):
-                total += val.unit_amount
-        if total > self.quantity_max:
-            self.total_invoice_amount = (total-self.quantity_max) * self.timesheet_product_price
-        else:
-            self.total_invoice_amount = 0
+        service_delivery_total = 0
+        working_hours_total = 0
+        prepaid_instalment_total = 0
+        on_site_total=0							
+        price = self.timesheet_product_price
+        for line in self.line_ids:
+            if line.ref:
+                prepaid_instalment_total += line.amount
+            if not line.ref:
+                if line.on_site:
+                    computed_amount = self.on_site_product.lst_price
+                    on_site_total += 1
+                else:
+                    computed_amount=0
+                computed_amount=computed_amount + (price * line.unit_amount)
+                service_delivery_total += computed_amount
+                working_hours_total += line.unit_amount
+        self.total_invoice_amount = service_delivery_total - prepaid_instalment_total
     
     @api.multi
     def create_invoice(self):
