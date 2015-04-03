@@ -80,7 +80,7 @@ class account_analytic_account_improvements(models.Model):
                     on_site_total += 1
                 else:
                     computed_amount=0
-                computed_amount=computed_amount + (price * line.unit_amount)
+                computed_amount=computed_amount + ((price * line.unit_amount)*((100-line.to_invoice.factor)/100))
                 service_delivery_total += computed_amount
                 working_hours_total += line.unit_amount
         self.total_invoice_amount = prepaid_instalment_total - service_delivery_total
