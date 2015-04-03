@@ -26,6 +26,8 @@ class account_analytic_account_improvements(models.Model):
     total_invoice_amount = fields.Float(compute='_compute_total_invoice_amount',string="Total invoice amount", store=False)
     computed_units_consumed = fields.Float(compute='_compute_units_consumed',string="Units Consumed", store=False)
     computed_units_remaining = fields.Float(compute='_compute_units_remaining',string="Units Remaining", store=False)
+    total_invoice_amount_info = fields.Char(compute='_compute_total_invoice_amount_info',string="Total invoice amount", store=False)
+
 
     @api.one
     def _compute_units_consumed(self):
@@ -81,8 +83,18 @@ class account_analytic_account_improvements(models.Model):
                 computed_amount=computed_amount + (price * line.unit_amount)
                 service_delivery_total += computed_amount
                 working_hours_total += line.unit_amount
-        self.total_invoice_amount = service_delivery_total - prepaid_instalment_total
+        self.total_invoice_amount = prepaid_instalment_total - service_delivery_total
     
+    @api.one
+    @api.onchange('contract_type')  
+    def _compute_total_invoice_amount_info(self):
+        balance = self.total_invoice_amount
+        if balance >= 0:
+            info = 'In favour of the customer'
+        if balance < 0:
+            info = 'In our favour'
+        self.total_invoice_amount_info = str(balance)+" € ("+info+")"
+
     @api.multi
     def create_invoice(self):
         cr = self.env.cr
