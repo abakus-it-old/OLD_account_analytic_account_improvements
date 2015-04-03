@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <openerp>
 	<data>
         <!-- ======================================================================================================== -->
@@ -23,7 +23,8 @@
                     <div>
                         <group>
                             <field name="number_of_timesheets"/>
-                            <field name="total_invoice_amount"/>
+                            <field name="total_invoice_amount" invisible="1"/>
+                            <field name="total_invoice_amount_info"/>
                         </group>
                         <group class="oe_timesheet_action" attrs="{'invisible': ['|',('invoice_on_timesheets','=',False),('type','=','template')]}">
                             <!-- 
@@ -32,7 +33,7 @@
                             -->
                         </group>
                         <group>
-                            <button name="create_invoice" type="object" string="Create invoice" class="oe_highlight" attrs="{'invisible':[('total_invoice_amount','=',0)]}"/>
+                            <button name="create_invoice" type="object" string="Create invoice" class="oe_highlight" attrs="{'invisible':[('total_invoice_amount','&gt;=',0)]}"/>
                         </group>
                     </div>
                 </xpath>
