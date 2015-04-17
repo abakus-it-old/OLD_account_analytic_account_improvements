@@ -93,7 +93,7 @@ class account_analytic_account_improvements(models.Model):
             info = 'In favour of the customer'
         if balance < 0:
             info = 'In our favour'
-        self.total_invoice_amount_info = str(balance)+' '+u"\u20AC"+" ("+info+")" # u20AC == euro sign
+        self.total_invoice_amount_info = str(abs(balance))+' '+u"\u20AC"+" ("+info+")" # u20AC == euro sign
 
     @api.multi
     def create_invoice(self):
