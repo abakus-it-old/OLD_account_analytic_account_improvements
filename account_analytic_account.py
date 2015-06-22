@@ -103,8 +103,9 @@ class account_analytic_account_improvements(models.Model):
         account_analytic_lines = account_analytic_line_obj.search(cr, uid, [('invoice_id', '=', False),('account_id','=',self.id)])
 
         total = self.total_invoice_amount
-        if total>0:
+        if total<0:
             today = datetime.datetime.now()
+            total_to_invoice = total * (-1)
             
             #search the right sale journal         
             account_journal_obj = self.pool.get('account.journal')
@@ -131,7 +132,7 @@ class account_analytic_account_improvements(models.Model):
                 'invoice_id' : invoice_id,
                 'product_id' : self.contract_type.timesheet_product.id,
                 'name' : self.contract_type.timesheet_product.description_sale,
-                'quantity' : total/self.timesheet_product_price,
+                'quantity' : total_to_invoice/self.timesheet_product_price,
                 'price_unit' : self.timesheet_product_price,
                 'account_id' : invoice_line_account_id,
                 })
