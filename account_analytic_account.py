@@ -135,6 +135,7 @@ class account_analytic_account_improvements(models.Model):
                 'quantity' : total_to_invoice/self.timesheet_product_price,
                 'price_unit' : self.timesheet_product_price,
                 'account_id' : invoice_line_account_id,
+                'account_analytic_id' : self.id,
                 })
             
             #what is the return of self.contract_type.timesheet_product.taxes_id (many2many)
