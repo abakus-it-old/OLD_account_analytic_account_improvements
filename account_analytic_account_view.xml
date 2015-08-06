@@ -127,7 +127,7 @@
 
 		<!-- ADD THE COMPUTED FIELD -->
 		<record id="account_analytic_remove_remaining_hours" model="ir.ui.view">
-            <field name="name">account.analytic.account.tree</field>
+            <field name="name">account.analytic.account.tree.remaining_hours</field>
             <field name="model">account.analytic.account</field>
 			<field name="inherit_id" ref="account_analytic_analysis.view_account_analytic_account_tree_c2c_3"/>
             <field name="arch" type="xml">
@@ -140,7 +140,7 @@
 
 		<!-- COLOR THE COMPUTED FIELD IN RED -->
 		<record id="account_analytic_computed_remaining" model="ir.ui.view">
-            <field name="name">account.analytic.account.tree</field>
+            <field name="name">account.analytic.account.tree.computed_remaining</field>
             <field name="model">account.analytic.account</field>
 			<field name="inherit_id" ref="account.view_account_analytic_account_list"/>
             <field name="arch" type="xml">
@@ -156,11 +156,22 @@
 				<xpath expr="//field[@name='code']" position="after">
 					<field name="computed_units_remaining"/>
                 </xpath>
-				<!-- Add the team -->
-				<xpath expr="//field[@name='contract_type']" position="after">
-					<field name="contract_team"/>
-                </xpath>
             </field>
         </record>
+        
+        <!-- ======================================================================================================== -->
+
+        
+        <record model="ir.ui.view" id="view_account_analytic_account_stages">
+            <field name="name">account.analytic.account.stages</field>
+            <field name="model">account.analytic.account</field>
+            <field name="inherit_id" ref="hr_timesheet_invoice.account_analytic_account_form_form"/>
+            <field name="arch" type="xml">
+                <field name="state" position="attributes">
+                    <attribute name="statusbar_visible">negociation,open,pending,close,cancelled,refused</attribute>
+                </field>
+            </field>
+        </record>
+        
     </data>
 </openerp>

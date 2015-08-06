@@ -28,6 +28,15 @@ class account_analytic_account_improvements(models.Model):
     computed_units_remaining = fields.Float(compute='_compute_units_remaining',string="Units Remaining", store=False)
     total_invoice_amount_info = fields.Char(compute='_compute_total_invoice_amount_info',string="Total invoice amount", store=False)
 
+    state = fields.Selection([('template', 'Template'),
+                              ('negociation','Negociation'),
+                              ('draft','New'),
+                              ('open','In Progress'),
+                              ('pending','To Renew'),
+                              ('close','Closed'),
+                              ('cancelled', 'Cancelled'),
+                              ('refused','Refused')])
+
 
     @api.one
     def _compute_units_consumed(self):
