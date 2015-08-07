@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
 	<data>
-        <!-- ======================================================================================================== -->
+       <!-- ======================================================================================================== -->
         <record model="ir.ui.view" id="account_analytic_account_remove_Invoice_Price_Rate_per_User">
             <field name="name">account.analytic.account.remove.Invoice.Price.Rate.per.User</field>
             <field name="model">account.analytic.account</field>
@@ -89,7 +89,9 @@
         </record>
 
         <menuitem id="contract_type_menu" name="Contract Types" parent="base.menu_base_config" action="contract_type_action"/>
+        
         <!-- ======================================================================================================== -->
+        
         <record model="ir.ui.view" id="account_analytic_account_improvements">
             <field name="name">account_analytic_account_improvements</field>
             <field name="model">account.analytic.account</field>
@@ -105,6 +107,7 @@
                 </xpath>
             </field>
         </record>
+        
         <!-- ======================================================================================================== -->
         
         <record model="ir.ui.view" id="account_analytic_account_replace_units_consumed_and_remaining">
@@ -124,44 +127,9 @@
                 </xpath>                
             </field>
         </record>
-
-		<!-- ADD THE COMPUTED FIELD -->
-		<record id="account_analytic_remove_remaining_hours" model="ir.ui.view">
-            <field name="name">account.analytic.account.tree.remaining_hours</field>
-            <field name="model">account.analytic.account</field>
-			<field name="inherit_id" ref="account_analytic_analysis.view_account_analytic_account_tree_c2c_3"/>
-            <field name="arch" type="xml">
-				<!-- Remove the remaining hours -->
-				<xpath expr="//field[@name='remaining_hours']" position="replace"/>
-				<!-- Remove the contract manager -->
-				<xpath expr="//field[@name='manager_id']" position="replace"/>
-            </field>
-        </record>
-
-		<!-- COLOR THE COMPUTED FIELD IN RED -->
-		<record id="account_analytic_computed_remaining" model="ir.ui.view">
-            <field name="name">account.analytic.account.tree.computed_remaining</field>
-            <field name="model">account.analytic.account</field>
-			<field name="inherit_id" ref="account.view_account_analytic_account_list"/>
-            <field name="arch" type="xml">
-				<!-- Set in orange if units_remaining <= 0 -->
-				<tree position="attributes">
-					<attribute name="colors">red:state=='pending';grey:state in ('cancelled','close');blue:type=='view';orange:computed_units_remaining &lt; 0</attribute>
-                </tree>
-				<!-- Add the contract type -->
-				<xpath expr="//field[@name='complete_name']" position="before">
-					<field name="contract_type"/>
-                </xpath>
-				<!-- Add the computed units remaining -->
-				<xpath expr="//field[@name='code']" position="after">
-					<field name="computed_units_remaining"/>
-                </xpath>
-            </field>
-        </record>
         
         <!-- ======================================================================================================== -->
 
-        
         <record model="ir.ui.view" id="view_account_analytic_account_stages">
             <field name="name">account.analytic.account.stages</field>
             <field name="model">account.analytic.account</field>
@@ -169,6 +137,8 @@
             <field name="arch" type="xml">
                 <field name="state" position="attributes">
                     <attribute name="statusbar_visible">negociation,open,pending,close,cancelled,refused</attribute>
+                    <attribute name="readonly">0</attribute>
+                    <attribute name="clickable">True</attribute>
                 </field>
             </field>
         </record>

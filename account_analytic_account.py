@@ -35,7 +35,7 @@ class account_analytic_account_improvements(models.Model):
                               ('pending','To Renew'),
                               ('close','Closed'),
                               ('cancelled', 'Cancelled'),
-                              ('refused','Refused')])
+                              ('refused','Refused')], default='negociation')
 
 
     @api.one
