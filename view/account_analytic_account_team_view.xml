@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+        <record model="ir.ui.view" id="account_analytic_account_team_form_view">
+            <field name="name">team.form</field>
+            <field name="model">account.analytic.account.team</field>
+            <field name="arch" type="xml">
+                <form string="Team Form">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="compagny"/>
+                            <field name="active"/>
+                            <field name="users"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record model="ir.actions.act_window" id="contract_team_action">
+            <field name="name">Contract Teams</field>
+            <field name="res_model">account.analytic.account.team</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="contract_team_menu" name="Contract Teams" parent="base.menu_base_config" action="contract_team_action"/>
+    </data>
+</openerp>

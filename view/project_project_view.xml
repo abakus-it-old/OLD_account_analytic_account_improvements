@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+        <record model="ir.ui.view" id="project_project_change_color_view">
+            <field name="name">project.project.change.color</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+                <field name="parent_id" position="after">
+                    <field name='color'/>
+                    <div class="openerp oe_kanban_view">
+                        Colors: 
+                        <span class="oe_kanban_color_0" style="padding:0 11px;">0</span>
+                        <span class="oe_kanban_color_1" style="padding:0 11px;">1</span>
+                        <span class="oe_kanban_color_2" style="padding:0 11px;">2</span>
+                        <span class="oe_kanban_color_3" style="padding:0 11px;">3</span>
+                        <span class="oe_kanban_color_4" style="padding:0 11px;">4</span>
+                        <span class="oe_kanban_color_5" style="padding:0 11px;">5</span>
+                        <span class="oe_kanban_color_6" style="padding:0 11px;">6</span>
+                        <span class="oe_kanban_color_7" style="padding:0 11px;">7</span>
+                        <span class="oe_kanban_color_8" style="padding:0 11px;">8</span>
+                        <span class="oe_kanban_color_9" style="padding:0 11px;">9</span>
+                    </div>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>

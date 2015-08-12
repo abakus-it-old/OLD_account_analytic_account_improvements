@@ -1,20 +1,6 @@
 from openerp import models, fields, api
 import datetime
 from datetime import date
-
-class account_analytic_account_team(models.Model):
-    _name = 'account.analytic.account.team'
-    
-    name = fields.Char(string="Name", required=True)
-    compagny = fields.Many2one('res.company', string="Compagny", index=True)
-    active = fields.Boolean(string="Active", default=True)
-    users = fields.Many2many('res.users',string="Users")
-
-class account_analytic_account_type(models.Model):
-    _name = 'account.analytic.account.type'
-
-    name = fields.Char(string="Name", required=True)
-    timesheet_product = fields.Many2one('product.product', string="Product", index=True)
     
 class account_analytic_account_improvements(models.Model):
     _inherit = ['account.analytic.account']
@@ -36,7 +22,6 @@ class account_analytic_account_improvements(models.Model):
                               ('close','Closed'),
                               ('cancelled', 'Cancelled'),
                               ('refused','Refused')], default='negociation')
-
 
     @api.one
     def _compute_units_consumed(self):
@@ -170,3 +155,99 @@ class account_analytic_account_improvements(models.Model):
                     'tag': 'reload',
                     'params': {'menu_id': ir_ui_menu_obj.browse(cr, uid, ir_ui_menus[0]).id }
                 }
+    
+    def project_create(self, cr, uid, analytic_account_id, vals, context=None):
+        '''
+        This function is called at the time of analytic account creation and is used to create a project automatically linked to it if the conditions are meet.
+        '''
+        #code from the project_create method from the project module
+        """
+        project_pool = self.pool.get('project.project')
+        project_id = project_pool.search(cr, uid, [('analytic_account_id','=', analytic_account_id)])
+        if not project_id and self._trigger_project_creation(cr, uid, vals, context=context):
+            project_values = {
+                'name': vals.get('name'),
+                'analytic_account_id': analytic_account_id,
+                'type': vals.get('type','contract'),
+            }
+            return project_pool.create(cr, uid, project_values, context=context)
+        return False
+        """
+        
+        project_id = super(account_analytic_account_improvements, self).project_create(cr, uid, analytic_account_id, vals, context=context)
+        if project_id:
+            project_project_obj = self.pool.get('project.project')
+            project_project = project_project_obj.browse(cr, uid, project_id)
+            
+            if project_project.analytic_account_id.template_id:
+                project_project_template_ids = project_project_obj.search(cr, uid, [('analytic_account_id', '=', project_project.analytic_account_id.template_id.id)])
+                
+                if project_project_template_ids:
+                    project_project_template = project_project_obj.browse(cr, uid, project_project_template_ids[0])
+                    
+                    #Sets the project attributes
+                    #'''''''''''''''''''''''''''
+                    
+                    #Adds the team users from the analytic account in the project team
+                    #-----------------------------------------------------------------
+                    if project_project.analytic_account_id.contract_team:
+                        for user in project_project.analytic_account_id.contract_team.users:
+                            query = """
+                                    INSERT INTO project_user_rel (uid, project_id)
+                                    VALUES (%s,%s)
+                                    """
+                            cr.execute(query, (str(user.id),str(project_id)))
+                    
+                    #Attributes in page "Other Info"
+                    #-------------------------------
+                    project_project.color = project_project_template.color
+                    project_project.privacy_visibility = project_project_template.privacy_visibility
+                    project_project.date_start = project_project.analytic_account_id.date_start
+                    project_project.date = project_project.analytic_account_id.date
+                    project_project.project_escalation_id = project_project_template.project_escalation_id.id
+                    
+                    #Sets the project stages
+                    #-----------------------
+                    #Removes the old project stages
+                    query = """
+                            DELETE FROM project_task_type_rel
+                            WHERE project_id=%s
+                            """
+                    cr.execute(query, [str(project_id)])
+                    
+                    #Adds the new project stages from the project template
+                    for stage in project_project_template.type_ids:
+                        query = """
+                                INSERT INTO project_task_type_rel (type_id, project_id)
+                                VALUES (%s,%s)
+                                """
+                        cr.execute(query, (str(stage.id),str(project_id)))
+        return project_id
+        
+    def on_change_template(self, cr, uid, ids, template_id, date_start=False, context=None):
+        #code from the on_change_template method from the analytic module
+        """
+        if not template_id:
+            return {}
+        res = {'value':{}}
+        template = self.browse(cr, uid, template_id, context=context)
+        if template.date_start and template.date:
+            from_dt = datetime.strptime(template.date_start, tools.DEFAULT_SERVER_DATE_FORMAT)
+            to_dt = datetime.strptime(template.date, tools.DEFAULT_SERVER_DATE_FORMAT)
+            timedelta = to_dt - from_dt
+            res['value']['date'] = datetime.strftime(datetime.now() + timedelta, tools.DEFAULT_SERVER_DATE_FORMAT)
+        if not date_start:
+            res['value']['date_start'] = fields.date.today()
+        res['value']['quantity_max'] = template.quantity_max
+        res['value']['parent_id'] = template.parent_id and template.parent_id.id or False
+        res['value']['description'] = template.description
+        return res
+        """
+
+        dict = super(account_analytic_account_improvements, self).on_change_template(cr, uid, ids, template_id, date_start, context=context)  
+        if 'value' in dict:
+            template = self.browse(cr, uid, template_id, context=context)
+            dict['value']['contract_type'] = template.contract_type.id
+            dict['value']['timesheet_product_price'] = template.timesheet_product_price
+            dict['value']['contract_team'] = template.contract_team.id
+        return dict

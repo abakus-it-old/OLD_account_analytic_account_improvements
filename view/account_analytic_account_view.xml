@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
 	<data>
-       <!-- ======================================================================================================== -->
         <record model="ir.ui.view" id="account_analytic_account_remove_Invoice_Price_Rate_per_User">
             <field name="name">account.analytic.account.remove.Invoice.Price.Rate.per.User</field>
             <field name="model">account.analytic.account</field>
@@ -12,7 +11,7 @@
                 </xpath>
             </field>
         </record>
-        <!-- ======================================================================================================== -->
+
         <record model="ir.ui.view" id="account_analytic_account_invoicing">
             <field name="name">account.analytic.account.invoicing</field>
             <field name="model">account.analytic.account</field>
@@ -39,58 +38,6 @@
                 </xpath>
             </field>
         </record>
-        <!-- ======================================================================================================== -->
-        <record model="ir.ui.view" id="account_analytic_account_team_form_view">
-            <field name="name">team.form</field>
-            <field name="model">account.analytic.account.team</field>
-            <field name="arch" type="xml">
-                <form string="Team Form">
-                    <sheet>
-                        <group>
-                            <field name="name"/>
-                            <field name="compagny"/>
-                            <field name="active"/>
-                            <field name="users"/>
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
-        
-        <record model="ir.actions.act_window" id="contract_team_action">
-            <field name="name">Contract Teams</field>
-            <field name="res_model">account.analytic.account.team</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-        </record>
-
-        <menuitem id="contract_team_menu" name="Contract Teams" parent="base.menu_base_config" action="contract_team_action"/>
-        <!-- ======================================================================================================== -->
-        <record model="ir.ui.view" id="account_analytic_account_type_form_view">
-            <field name="name">type.form</field>
-            <field name="model">account.analytic.account.type</field>
-            <field name="arch" type="xml">
-                <form string="Type Form">
-                    <sheet>
-                        <group>
-                            <field name="name"/>
-                            <field name="timesheet_product"/>
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
-        
-        <record model="ir.actions.act_window" id="contract_type_action">
-            <field name="name">Contract Types</field>
-            <field name="res_model">account.analytic.account.type</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-        </record>
-
-        <menuitem id="contract_type_menu" name="Contract Types" parent="base.menu_base_config" action="contract_type_action"/>
-        
-        <!-- ======================================================================================================== -->
         
         <record model="ir.ui.view" id="account_analytic_account_improvements">
             <field name="name">account_analytic_account_improvements</field>
@@ -107,9 +54,7 @@
                 </xpath>
             </field>
         </record>
-        
-        <!-- ======================================================================================================== -->
-        
+         
         <record model="ir.ui.view" id="account_analytic_account_replace_units_consumed_and_remaining">
             <field name="name">account.analytic.account.replace.units.consumed.and.remaining</field>
             <field name="model">account.analytic.account</field>
@@ -127,8 +72,6 @@
                 </xpath>                
             </field>
         </record>
-        
-        <!-- ======================================================================================================== -->
 
         <record model="ir.ui.view" id="view_account_analytic_account_stages">
             <field name="name">account.analytic.account.stages</field>
@@ -142,6 +85,5 @@
                 </field>
             </field>
         </record>
-        
     </data>
 </openerp>
