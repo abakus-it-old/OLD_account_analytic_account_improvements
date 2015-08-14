@@ -10,5 +10,9 @@ It adds:
    * if you create a new contract then the default values comes from the project of the contract template.
    * default values: 
       * Project: team, stages, color, privacy_visibility, date_start, date and project_escalation_id.
+   * followers:
+      * project: none
+      * task: Assigned to, Reviewer and task creator
+      * issue: Assigned to, Contact and issue creator
 
 This module has been developed by Bernard Delhez, intern @ AbAKUS it-solutions, under the control of Valentin Thirion.

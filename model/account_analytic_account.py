@@ -222,6 +222,16 @@ class account_analytic_account_improvements(models.Model):
                                 VALUES (%s,%s)
                                 """
                         cr.execute(query, (str(stage.id),str(project_id)))
+                    
+                    
+                    #removes the project followers
+                    #query = """
+                    #        DELETE FROM mail_followers
+                    #        WHERE res_id=%s and res_model=%s
+                    #        """
+                    #cr.execute(query, (str(project_id), 'project.issue'))
+                    
+                    
         return project_id
         
     def on_change_template(self, cr, uid, ids, template_id, date_start=False, context=None):
