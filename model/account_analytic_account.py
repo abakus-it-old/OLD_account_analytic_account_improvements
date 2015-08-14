@@ -70,7 +70,7 @@ class account_analytic_account_improvements(models.Model):
                 prepaid_instalment_total += line.amount
             if not line.ref:
                 if line.on_site:
-                    computed_amount = self.on_site_product.lst_price
+                    computed_amount = self.on_site_product_price
                     on_site_total += 1
                 else:
                     computed_amount=0
