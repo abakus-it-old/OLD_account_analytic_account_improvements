@@ -65,12 +65,18 @@ class account_analytic_account_improvements(models.Model):
         prepaid_instalment_total = 0
         on_site_total=0							
         price = self.timesheet_product_price
+        travel_cost = 0
+        if self.on_site_invoice_by_km:
+            travel_cost = self.on_site_product.lst_price * self.on_site_distance_in_km
+        else:
+            travel_cost = self.on_site_product.lst_price
+        
         for line in self.line_ids:
             if line.ref:
                 prepaid_instalment_total += line.amount
             if not line.ref:
                 if line.on_site:
-                    computed_amount = self.on_site_product_price
+                    computed_amount = travel_cost
                     on_site_total += 1
                 else:
                     computed_amount=0
