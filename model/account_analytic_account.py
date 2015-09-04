@@ -120,6 +120,8 @@ class account_analytic_account_improvements(models.Model):
                 'date_invoice' : today.strftime('%Y-%m-%d'),
                 'state' : 'draft',
                 'reference_type' : 'none', 
+                'fiscal_position' : self.partner_id.property_account_position,
+                'payment_term' : self.partner_id.property_payment_term,
                 })
 
                 
