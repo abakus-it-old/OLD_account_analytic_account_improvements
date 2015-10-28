@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
 	<data>
+        <record model="ir.ui.view" id="account_analytic_account_type_tree_view">
+            <field name="name">contract.type.tree</field>
+            <field name="model">account.analytic.account.type</field>
+            <field name="arch" type="xml">
+                <tree string="Type Form">
+                    <field name="name"/>
+                    <field name="timesheet_product"/>
+                    <field name="contractual_minimum_amount"/>
+                </tree>
+            </field>
+        </record>
+
         <record model="ir.ui.view" id="account_analytic_account_type_form_view">
-            <field name="name">type.form</field>
+            <field name="name">contract.type.form</field>
             <field name="model">account.analytic.account.type</field>
             <field name="arch" type="xml">
                 <form string="Type Form">
@@ -10,12 +22,13 @@
                         <group>
                             <field name="name"/>
                             <field name="timesheet_product"/>
+                            <field name="contractual_minimum_amount"/>
                         </group>
                     </sheet>
                 </form>
             </field>
         </record>
-        
+
         <record model="ir.actions.act_window" id="contract_type_action">
             <field name="name">Contract Types</field>
             <field name="res_model">account.analytic.account.type</field>

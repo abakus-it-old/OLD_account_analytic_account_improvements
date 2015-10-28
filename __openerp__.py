@@ -1,6 +1,6 @@
 ﻿{
     'name': "AbAKUS contract improvements",
-    'version': '1.0',
+    'version': '1.0.1',
     'depends': ['account_analytic_analysis'],
     'author': "Bernard DELHEZ, AbAKUS it-solutions SARL",
     'website': "http://www.abakusitsolutions.eu",
@@ -10,6 +10,7 @@
 It adds:
     - Team management for contracts, allows to create teams with users and link them to contracts
     - Type management for contracts, allows to create types with a product, a price and link them to contracts
+    - Minimum contractual amount in contract types, that is added to contracts also
     - BL invoicing: enable to invoice regarding the AbAKUS invoicing policy in BL Support contracts
     - New stages in contracts: negociation,open,pending,close,cancelled,refused
     - on_change_template refresh the new attributes: type, team, hourly rate

@@ -25,12 +25,6 @@
                             <field name="total_invoice_amount" invisible="1"/>
                             <field name="total_invoice_amount_info"/>
                         </group>
-                        <group class="oe_timesheet_action" attrs="{'invisible': ['|',('invoice_on_timesheets','=',False),('type','=','template')]}">
-                            <!-- 
-                            <button name="hr_to_invoice_timesheets" type="object" class="oe_link" string="⇒ Invoice" attrs="{'invisible':[('total_invoice_amount','=',0)]}" /> 
-                            <button name="387" string="⇒ Timesheets" type="action" class="oe_link" attrs="{'invisible':[('number_of_timesheets','=',0)]}" context="{'default_account_id': active_id,'search_default_account_id': active_id}"/>
-                            -->
-                        </group>
                         <group>
                             <button name="create_invoice" type="object" string="Create invoice" class="oe_highlight" attrs="{'invisible':[('total_invoice_amount','&gt;=',0)]}"/>
                         </group>
@@ -47,6 +41,7 @@
                 <xpath expr="//page[@name='contract_page']/group[@name='contract']" position="before">
                     <group>
                         <field name="contract_type"/>
+                        <field name="contractual_minimum_amount"/>
                         <field name="contract_type_product_name"/>
                         <field name="timesheet_product_price"/>
                         <field name="contract_team"/>
