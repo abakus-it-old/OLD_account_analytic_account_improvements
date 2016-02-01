@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
 	<data>
+	 <record id="contracts_by_type_filter" model="ir.ui.view">
+            <field name="name">account_analytic_account.filter</field>
+            <field name="model">account.analytic.account</field>
+            <field name="inherit_id" ref="account_analytic_analysis.view_account_analytic_account_overdue_search"/>
+            <field name="arch" type="xml">
+                <filter string="Status" position="after">
+                        <filter string="Contract Type" domain="[]" context="{'group_by':'contract_type'}"/>
+                </filter>
+            </field>
+        </record>
+
         <record model="ir.ui.view" id="account_analytic_account_remove_Invoice_Price_Rate_per_User">
             <field name="name">account.analytic.account.remove.Invoice.Price.Rate.per.User</field>
             <field name="model">account.analytic.account</field>
