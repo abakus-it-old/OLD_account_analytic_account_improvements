@@ -2,7 +2,7 @@ This modules adds some functionalities to the contracts for AbAKUS.
 
 It adds:
 * Team management for contracts, allows to create teams with users and link them to contracts
-* Type management for contracts, allows to create types with a product, a price and link them to contracts
+* Type management for contracts (mandatory), allows to create types with a product, a price and link them to contracts
 * BL invoicing: enable to invoice regarding the AbAKUS invoicing policy in BL Support contracts
 * New stages in contracts: negociation,open,pending,close,cancelled,refused
 * on_change_template refresh the new attributes: type, team, hourly rate
