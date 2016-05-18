@@ -3,10 +3,10 @@ import datetime
 from datetime import date
     
 class account_analytic_account_improvements(models.Model):
-    _inherit = ['account.analytic.account']
+    _inherit = ['sale.subscription']
     timesheet_product_price = fields.Float("Hourly Rate")
-    contract_type = fields.Many2one('account.analytic.account.type', string="Type", index=True, required=True)
-    contract_team = fields.Many2one('account.analytic.account.team', string="Team", index=True)
+    contract_type = fields.Many2one('sale.subscription.type', string="Type", index=True, required=True)
+    contract_team = fields.Many2one('sale.subscription.team', string="Team", index=True)
     contract_type_product_name = fields.Char(compute='_get_product_name',string="Product name", store=False)
     number_of_timesheets = fields.Integer(compute='_compute_number_of_timesheets',string="Number of timesheets", store=False)
     total_invoice_amount = fields.Float(compute='_compute_total_invoice_amount',string="Total invoice amount", store=False)
@@ -14,6 +14,7 @@ class account_analytic_account_improvements(models.Model):
     computed_units_remaining = fields.Float(compute='_compute_units_remaining',string="Units Remaining", store=False)
     total_invoice_amount_info = fields.Char(compute='_compute_total_invoice_amount_info',string="Total invoice amount", store=False)
     contractual_minimum_amount = fields.Float(string="Contractual minimum amount", store=True)
+    quantity_max = fields.Float(string="Prepaid Service Unit")
 
     state = fields.Selection([('template', 'Template'),
                               ('negociation','Negociation'),
@@ -26,14 +27,9 @@ class account_analytic_account_improvements(models.Model):
 
     @api.one
     def _compute_units_consumed(self):
-        cr = self.env.cr
-        uid = self.env.user.id
-        account_analytic_line_obj = self.pool.get('account.analytic.line')
-        account_analytic_lines = account_analytic_line_obj.search(cr, uid, [('invoice_id', '=', False),('account_id','=',self.id)])
-        total=0
-        if account_analytic_lines:
-            for val in account_analytic_line_obj.browse(cr, uid, account_analytic_lines):
-                total += val.unit_amount
+        total = 0
+        for line in self.line_ids:
+            total += line.unit_amount
         self.computed_units_consumed = total
     
     @api.one
@@ -50,14 +46,15 @@ class account_analytic_account_improvements(models.Model):
     def _get_product_name(self):
         self.contract_type_product_name = self.contract_type.timesheet_product.name
         self.contractual_minimum_amount = self.contract_type.contractual_minimum_amount
+        self.quantity_max = self.contract_type.contractual_minimum_amount * 2
     
     @api.one
     def _compute_number_of_timesheets(self):
-        cr = self.env.cr
-        uid = self.env.user.id
-        account_analytic_line_obj = self.pool.get('account.analytic.line')
-        account_analytic_lines = account_analytic_line_obj.search(cr, uid, [('invoice_id', '=', False),('account_id','=',self.id)])
-        self.number_of_timesheets = len(account_analytic_lines)
+        num = 0
+        for line in self.line_ids:
+            if not line.invoice_id or not line.ref:
+                num += 1
+        self.number_of_timesheets = num
     
     @api.one
     @api.onchange('contract_type')  
@@ -81,8 +78,8 @@ class account_analytic_account_improvements(models.Model):
                     computed_amount = travel_cost
                     on_site_total += 1
                 else:
-                    computed_amount=0
-                computed_amount=computed_amount + ((price * line.unit_amount)*((100-line.to_invoice.factor)/100))
+                    computed_amount = 0
+                computed_amount = computed_amount + ((price * line.unit_amount) * ((100 - line.to_invoice.factor) / 100))
                 service_delivery_total += computed_amount
                 working_hours_total += line.unit_amount
         self.total_invoice_amount = prepaid_instalment_total - service_delivery_total
@@ -102,10 +99,10 @@ class account_analytic_account_improvements(models.Model):
         cr = self.env.cr
         uid = self.env.user.id
         account_analytic_line_obj = self.pool.get('account.analytic.line')
-        account_analytic_lines = account_analytic_line_obj.search(cr, uid, [('invoice_id', '=', False),('account_id','=',self.id)])
+        account_analytic_lines = account_analytic_line_obj.search(cr, uid, [('invoice_id', '=', False),('account_id','=',self.analytic_account_id.id)])
 
         total = self.total_invoice_amount
-        if total<0:
+        if total < 0:
             today = datetime.datetime.now()
             total_to_invoice = total * (-1)
             
@@ -114,7 +111,7 @@ class account_analytic_account_improvements(models.Model):
             account_journal = account_journal_obj.search(cr, uid, [('company_id', '=', self.company_id.id),('type','=','sale')]) #('analytic_journal_id', '=', account_analytic_journal[0])
 
             invoice_id = self.pool.get('account.invoice').create(cr,uid,{
-                'account_id' :  self.partner_id.property_account_receivable.id,
+                'account_id' :  self.partner_id.property_account_receivable_id.id,
                 'company_id' : self.company_id.id,
                 'currency_id' : self.currency_id.id,
                 'journal_id' : account_journal_obj.browse(cr, uid, account_journal[0]).id,
@@ -122,24 +119,23 @@ class account_analytic_account_improvements(models.Model):
                 'date_invoice' : today.strftime('%Y-%m-%d'),
                 'state' : 'draft',
                 'reference_type' : 'none', 
-		'fiscal_position' : self.partner_id.property_account_position.id,
-		'payment_term' : self.partner_id.property_payment_term.id,
+		        'fiscal_position' : self.partner_id.property_account_position_id.id,
+		        'payment_term' : self.partner_id.property_payment_term_id.id,
                 })
 
-                
-            if self.contract_type.timesheet_product.property_account_income.id:
-                invoice_line_account_id = self.contract_type.timesheet_product.property_account_income.id
+            if self.contract_type.timesheet_product.property_account_income_id.id:
+                invoice_line_account_id = self.contract_type.timesheet_product.property_account_income_id.id
             else:
-                invoice_line_account_id = self.contract_type.timesheet_product.categ_id.property_account_income_categ.id
+                invoice_line_account_id = self.contract_type.timesheet_product.categ_id.property_account_income_categ_id.id
                 
-            invoice_line_id = self.pool.get('account.invoice.line').create(cr,uid,{
+            invoice_line_id = self.pool.get('account.invoice.line').create(cr, uid, {
                 'invoice_id' : invoice_id,
                 'product_id' : self.contract_type.timesheet_product.id,
                 'name' : self.contract_type.timesheet_product.description_sale,
                 'quantity' : total_to_invoice/self.timesheet_product_price,
                 'price_unit' : self.timesheet_product_price,
                 'account_id' : invoice_line_account_id,
-                'account_analytic_id' : self.id,
+                'account_analytic_id' : self.analytic_account_id.id,
                 })
             
             #what is the return of self.contract_type.timesheet_product.taxes_id (many2many)
@@ -264,11 +260,12 @@ class account_analytic_account_improvements(models.Model):
         return res
         """
 
-        dict = super(account_analytic_account_improvements, self).on_change_template(cr, uid, ids, template_id, date_start, context=context)  
+        dict = super(account_analytic_account_improvements, self).on_change_template(cr, uid, ids, template_id, date_start)
         if 'value' in dict:
             template = self.browse(cr, uid, template_id, context=context)
             dict['value']['contract_type'] = template.contract_type.id
             dict['value']['timesheet_product_price'] = template.timesheet_product_price
             dict['value']['contract_team'] = template.contract_team.id
             dict['value']['contractual_minimum_amount'] = template.contractual_minimum_amount
+            dict['value']['quantity_max'] = template.contractual_minimum_amount * 2
         return dict

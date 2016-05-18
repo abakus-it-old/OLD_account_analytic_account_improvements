@@ -1,7 +1,7 @@
 from openerp import models, fields, api
 
 class account_analytic_account_team(models.Model):
-    _name = 'account.analytic.account.team'
+    _name = 'sale.subscription.team'
     
     name = fields.Char(string="Name", required=True)
     compagny = fields.Many2one('res.company', string="Compagny", index=True)

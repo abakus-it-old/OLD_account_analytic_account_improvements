@@ -3,7 +3,7 @@
 	<data>
         <record model="ir.ui.view" id="account_analytic_account_type_tree_view">
             <field name="name">contract.type.tree</field>
-            <field name="model">account.analytic.account.type</field>
+            <field name="model">sale.subscription.type</field>
             <field name="arch" type="xml">
                 <tree string="Type Form">
                     <field name="name"/>
@@ -15,9 +15,9 @@
 
         <record model="ir.ui.view" id="account_analytic_account_type_form_view">
             <field name="name">contract.type.form</field>
-            <field name="model">account.analytic.account.type</field>
+            <field name="model">sale.subscription.type</field>
             <field name="arch" type="xml">
-                <form string="Type Form">
+                <form string="Contract Type">
                     <sheet>
                         <group>
                             <field name="name"/>
@@ -31,11 +31,11 @@
 
         <record model="ir.actions.act_window" id="contract_type_action">
             <field name="name">Contract Types</field>
-            <field name="res_model">account.analytic.account.type</field>
+            <field name="res_model">sale.subscription.type</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
 
-        <menuitem id="contract_type_menu" name="Contract Types" parent="base.menu_base_config" action="contract_type_action"/>
+        <menuitem id="contract_type_menu" name="Contract Types" parent="sale_contract.menu_sale_subscription" action="contract_type_action" sequence="60"/>
     </data>
 </openerp>

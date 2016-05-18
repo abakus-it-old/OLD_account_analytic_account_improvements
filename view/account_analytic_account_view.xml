@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
 	<data>
+        <!--
 	 <record id="contracts_by_type_filter" model="ir.ui.view">
             <field name="name">account_analytic_account.filter</field>
             <field name="model">account.analytic.account</field>
@@ -11,7 +12,9 @@
                 </filter>
             </field>
         </record>
+        -->
 
+        <!--
         <record model="ir.ui.view" id="account_analytic_account_remove_Invoice_Price_Rate_per_User">
             <field name="name">account.analytic.account.remove.Invoice.Price.Rate.per.User</field>
             <field name="model">account.analytic.account</field>
@@ -22,16 +25,46 @@
                 </xpath>
             </field>
         </record>
+        -->
 
         <record model="ir.ui.view" id="account_analytic_account_invoicing">
             <field name="name">account.analytic.account.invoicing</field>
-            <field name="model">account.analytic.account</field>
-            <field name="inherit_id" ref="account_analytic_analysis.account_analytic_account_form_form"/>
-            <field name="arch" type="xml">            
-                <xpath expr="(//separator[@string='Recurring Invoices'])" position="before">
-                    <separator string="Invoicing Support Contract"/>
-                    <div>
+            <field name="model">sale.subscription</field>
+            <field name="inherit_id" ref="sale_contract.sale_subscription_view_form"/>
+            <field name="arch" type="xml">
+                <!-- Status bar -->
+                <field name="state" position="attributes">
+                    <attribute name="statusbar_visible">negociation,open,pending,close,cancelled,refused</attribute>
+                    <attribute name="readonly">0</attribute>
+                    <attribute name="clickable">True</attribute>
+                </field>
+
+                <!-- Support Contract Info -->
+                <xpath expr="//group[@name='main']" position="after" attrs="{'invisible': [('type','=','template')]}">
+                    <group string="Support Contract Settings">
                         <group>
+                            <field name="contract_type"/>
+                            <field name="contractual_minimum_amount"/>
+                            <field name="contract_type_product_name"/>
+                        </group>
+                        <group>
+                            <field name="timesheet_product_price"/>
+                            <field name="contract_team"/>
+                        </group>
+                    </group>
+                </xpath>
+
+                <!-- Invoicing and status -->
+                <xpath expr="(//field[@name='recurring_invoice_line_ids'])" position="after">
+                    <group string="Invoicing Support Contract" id="invoicing_support_contract">
+                        <group>
+                            <field name="quantity_max" />
+                            <div attrs="{'invisible': [('computed_units_consumed','=',0)]}" class="oe_grey">
+                                <field name="computed_units_consumed" class="oe_inline"/> Units Consumed
+                            </div>
+                            <div attrs="{'invisible': [('computed_units_remaining','=',0)]}" class="oe_grey">
+                                <field name="computed_units_remaining" class="oe_inline"/> Units Remaining
+                            </div>
                             <field name="number_of_timesheets"/>
                             <field name="total_invoice_amount" invisible="1"/>
                             <field name="total_invoice_amount_info"/>
@@ -39,56 +72,8 @@
                         <group>
                             <button name="create_invoice" type="object" string="Create invoice" class="oe_highlight" attrs="{'invisible':[('total_invoice_amount','&gt;=',0)]}"/>
                         </group>
-                    </div>
-                </xpath>
-            </field>
-        </record>
-        
-        <record model="ir.ui.view" id="account_analytic_account_improvements">
-            <field name="name">account_analytic_account_improvements</field>
-            <field name="model">account.analytic.account</field>
-            <field name="inherit_id" ref="analytic.view_account_analytic_account_form"/>
-            <field name="arch" type="xml">
-                <xpath expr="//page[@name='contract_page']/group[@name='contract']" position="before">
-                    <group>
-                        <field name="contract_type"/>
-                        <field name="contractual_minimum_amount"/>
-                        <field name="contract_type_product_name"/>
-                        <field name="timesheet_product_price"/>
-                        <field name="contract_team"/>
                     </group>
                 </xpath>
-            </field>
-        </record>
-         
-        <record model="ir.ui.view" id="account_analytic_account_replace_units_consumed_and_remaining">
-            <field name="name">account.analytic.account.replace.units.consumed.and.remaining</field>
-            <field name="model">account.analytic.account</field>
-            <field name="inherit_id" ref="account_analytic_analysis.account_analytic_account_form_form"/>
-            <field name="arch" type="xml">
-                <xpath expr="//div/div[@class='oe_grey']" position="replace"/>
-                <xpath expr="//div/div[@class='oe_grey']" position="replace"/>
-                <xpath expr="//field[@name='quantity_max']" position="after">
-                        <div attrs="{'invisible': [('computed_units_consumed','=',0)]}" class="oe_grey">
-                            <field name="computed_units_consumed" class="oe_inline"/> Units Consumed
-                        </div>
-                        <div attrs="{'invisible': [('computed_units_remaining','=',0)]}" class="oe_grey">
-                            <field name="computed_units_remaining" class="oe_inline"/> Units Remaining
-                        </div>
-                </xpath>                
-            </field>
-        </record>
-
-        <record model="ir.ui.view" id="view_account_analytic_account_stages">
-            <field name="name">account.analytic.account.stages</field>
-            <field name="model">account.analytic.account</field>
-            <field name="inherit_id" ref="hr_timesheet_invoice.account_analytic_account_form_form"/>
-            <field name="arch" type="xml">
-                <field name="state" position="attributes">
-                    <attribute name="statusbar_visible">negociation,open,pending,close,cancelled,refused</attribute>
-                    <attribute name="readonly">0</attribute>
-                    <attribute name="clickable">True</attribute>
-                </field>
             </field>
         </record>
     </data>

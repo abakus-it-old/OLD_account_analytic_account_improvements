@@ -1,7 +1,8 @@
 {
     'name': "AbAKUS contract improvements",
     'version': '1.0.1',
-    'depends': ['account_analytic_analysis'],
+    'depends': ['website_contract',
+                'contract_timesheet_activities_on_site_management'],
     'author': "Bernard DELHEZ, AbAKUS it-solutions SARL",
     'website': "http://www.abakusitsolutions.eu",
     'category': 'Contract',
@@ -28,5 +29,6 @@ This module has been developed by Bernard Delhez, intern @ AbAKUS it-solutions, 
              'view/account_analytic_account_type_view.xml',
              'view/account_analytic_account_team_view.xml',
              'view/project_project_view.xml',
+             'view/account_analytic_line_view.xml',
              'security/ir.model.access.csv',],
 }
