@@ -269,3 +269,13 @@ class account_analytic_account_improvements(models.Model):
             dict['value']['contractual_minimum_amount'] = template.contractual_minimum_amount
             dict['value']['quantity_max'] = template.contractual_minimum_amount * 2
         return dict
+
+    @api.multi
+    def name_get(self):
+        result = []
+        for record in self:
+            if record.parent_id:
+                result.append((record.id, "%s/%s" % (record.parent_id.name, record.name)))
+            else:
+                result.append((record.id, "%s" % (record.name)))
+        return result
