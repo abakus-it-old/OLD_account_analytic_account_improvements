@@ -43,7 +43,7 @@
                 <xpath expr="//group[@name='main']" position="after" attrs="{'invisible': [('type','=','template')]}">
                     <group string="Support Contract Settings">
                         <group>
-                            <field name="contract_type"/>
+                            <field name="contract_type" attrs="{'required':[('type', 'in', ['contract', 'template'])]}"/>
                             <field name="contractual_minimum_amount"/>
                             <field name="contract_type_product_name"/>
                         </group>
