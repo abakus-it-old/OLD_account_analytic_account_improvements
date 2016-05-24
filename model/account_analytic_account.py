@@ -5,7 +5,7 @@ from datetime import date
 class account_analytic_account_improvements(models.Model):
     _inherit = ['account.analytic.account']
     timesheet_product_price = fields.Float("Hourly Rate")
-    contract_type = fields.Many2one('account.analytic.account.type', string="Type", index=True, required=True)
+    contract_type = fields.Many2one('account.analytic.account.type', string="Type", index=True)
     contract_team = fields.Many2one('account.analytic.account.team', string="Team", index=True)
     contract_type_product_name = fields.Char(compute='_get_product_name',string="Product name", store=False)
     number_of_timesheets = fields.Integer(compute='_compute_number_of_timesheets',string="Number of timesheets", store=False)
