@@ -278,7 +278,11 @@ class account_analytic_account_improvements(models.Model):
         result = []
         for record in self:
             if record.parent_id:
-                result.append((record.id, "%s / %s" % (record.parent_id.name, record.name)))
+                try:
+                    result.append((record.id, "%s / %s" % (parent_name, record.name)))
+                    break
+                except BaseException as err:
+                    result.append((record.id, "%s" % (record.name)))
             else:
                 result.append((record.id, "%s" % (record.name)))
         return result
