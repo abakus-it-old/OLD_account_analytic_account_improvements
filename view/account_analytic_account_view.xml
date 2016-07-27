@@ -27,7 +27,7 @@
         </record>
         -->
 
-        <record model="ir.ui.view" id="account_analytic_account_invoicing">
+        <record model="ir.ui.view" id="sale_subscription_contract_improvements">
             <field name="name">account.analytic.account.invoicing</field>
             <field name="model">sale.subscription</field>
             <field name="inherit_id" ref="sale_contract.sale_subscription_view_form"/>
@@ -39,25 +39,19 @@
                     <attribute name="clickable">True</attribute>
                 </field>
 
-                <!-- Support Contract Info -->
-                <xpath expr="//group[@name='main']" position="after" attrs="{'invisible': [('type','=','template')]}">
-                    <group string="Support Contract Settings">
-                        <group>
+                <!-- Whole new page to manage AbAKUS BL contracts -->
+                <xpath expr="//group[@name='main']" position="after">
+                    <group>
+                       <!-- Support Contract Info -->
+                        <group string="Contract Settings" id="contract_settings" attrs="{'invisible': [('type','=','template')]}">
                             <field name="contract_type"/>
                             <field name="contractual_minimum_amount"/>
                             <field name="contract_type_product_name"/>
-                        </group>
-                        <group>
                             <field name="timesheet_product_price"/>
                             <field name="contract_team"/>
                         </group>
-                    </group>
-                </xpath>
-
-                <!-- Invoicing and status -->
-                <xpath expr="(//field[@name='recurring_invoice_line_ids'])" position="after">
-                    <group string="Invoicing Support Contract" id="invoicing_support_contract">
-                        <group>
+                        <!-- Invoicing and status -->
+                        <group string="Invoicing Support Contract" id="invoicing_support_contract">
                             <field name="quantity_max" />
                             <div attrs="{'invisible': [('computed_units_consumed','=',0)]}" class="oe_grey">
                                 <field name="computed_units_consumed" class="oe_inline"/> Units Consumed
@@ -68,8 +62,6 @@
                             <field name="number_of_timesheets"/>
                             <field name="total_invoice_amount" invisible="1"/>
                             <field name="total_invoice_amount_info"/>
-                        </group>
-                        <group>
                             <button name="create_invoice" type="object" string="Create invoice" class="oe_highlight" attrs="{'invisible':[('total_invoice_amount','&gt;=',0)]}"/>
                         </group>
                     </group>
