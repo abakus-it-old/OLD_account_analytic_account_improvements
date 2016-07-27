@@ -39,12 +39,20 @@
                     <attribute name="clickable">True</attribute>
                 </field>
 
+<<<<<<< HEAD
                 <!-- Whole new page to manage AbAKUS BL contracts -->
                 <xpath expr="//group[@name='main']" position="after">
                     <group>
                        <!-- Support Contract Info -->
                         <group string="Contract Settings" id="contract_settings" attrs="{'invisible': [('type','=','template')]}">
                             <field name="contract_type"/>
+=======
+                <!-- Support Contract Info -->
+                <xpath expr="//group[@name='main']" position="after" attrs="{'invisible': [('type','=','template')]}">
+                    <group string="Support Contract Settings">
+                        <group>
+                            <field name="contract_type" attrs="{'required':[('type', 'in', ['contract', 'template'])]}"/>
+>>>>>>> a141523aa79298cfe96431c303a0b3665720ce55
                             <field name="contractual_minimum_amount"/>
                             <field name="contract_type_product_name"/>
                             <field name="timesheet_product_price"/>
