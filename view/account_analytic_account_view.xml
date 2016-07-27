@@ -12,35 +12,39 @@
                     <attribute name="readonly">0</attribute>
                     <attribute name="clickable">True</attribute>
                 </field>
-                <xpath expr="//group[@name='main']" position="after" attrs="{'invisible': [('type','=','template')]}">
-                    <!-- Support Contract Info -->
-                    <group string="Support Contract Settings" id="contract_settings">
-                        <field name="contract_type" attrs="{'required':[('type', 'in', ['contract', 'template'])]}"/>
-                        <field name="contractual_minimum_amount"/>
-                        <field name="contract_type_product_name"/>
-                        <field name="timesheet_product_price"/>
-                        <field name="contract_team"/>
-                    </group>
-                        <!-- Invoicing and status -->
-                    <group string="Invoicing Support Contract" id="invoicing_support_contract">
-                        <field name="quantity_max" />
-                        <div attrs="{'invisible': [('computed_units_consumed','=',0)]}" class="oe_grey">
-                            <field name="computed_units_consumed" class="oe_inline"/> Units Consumed
-                        </div>
-                        <div attrs="{'invisible': [('computed_units_remaining','=',0)]}" class="oe_grey">
-                            <field name="computed_units_remaining" class="oe_inline"/> Units Remaining
-                        </div>
-                        <field name="number_of_timesheets"/>
-                        <field name="total_invoice_amount" invisible="1"/>
-                        <field name="total_invoice_amount_info"/>
-                        <button name="create_invoice" type="object" string="Create invoice" class="oe_highlight" attrs="{'invisible':[('total_invoice_amount','&gt;=',0)]}"/>
+                <xpath expr="//group[@name='main']" position="after">
+                    <group>
+                        <!-- Support Contract Info -->
+                        <group string="Support Contract Settings" id="contract_settings">
+                            <field name="contract_type" attrs="{'required':[('type', 'in', ['contract', 'template'])]}"/>
+                            <field name="contractual_minimum_amount"/>
+                            <field name="contract_type_product_name"/>
+                            <field name="timesheet_product_price"/>
+                            <field name="contract_team"/>
+                        </group>
+                            <!-- Invoicing and status -->
+                        <group string="Invoicing Support Contract" id="invoicing_support_contract">
+                            <field name="quantity_max" />
+                            <div attrs="{'invisible': [('computed_units_consumed','=',0)]}" class="oe_grey">
+                                <field name="computed_units_consumed" class="oe_inline"/> Units Consumed
+                            </div>
+                            <div attrs="{'invisible': [('computed_units_remaining','=',0)]}" class="oe_grey">
+                                <field name="computed_units_remaining" class="oe_inline"/> Units Remaining
+                            </div>
+                            <field name="number_of_timesheets"/>
+                            <field name="total_invoice_amount" invisible="1"/>
+                            <field name="total_invoice_amount_info"/>
+                            <button name="create_invoice" type="object" string="Create invoice" class="oe_highlight" attrs="{'invisible':[('total_invoice_amount','&gt;=',0)]}"/>
+                        </group>
                     </group>
                 </xpath>
                 <!-- Show timesheet lines for the contract -->
                 <xpath expr="//notebook[last()]" position="inside">
-                    <group string="Lines for this contract" id="contract_lines">
-                        <field name="line_ids" />
-                    </group>
+                    <page string="Lines">
+                        <group string="Lines for this contract" id="contract_lines">
+                            <field name="line_ids" />
+                        </group>
+                    </page>
                 </xpath>
             </field>
         </record>
