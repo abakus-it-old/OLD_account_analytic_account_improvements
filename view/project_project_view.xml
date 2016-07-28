@@ -6,6 +6,7 @@
             <field name="model">project.project</field>
             <field name="inherit_id" ref="project.edit_project"/>
             <field name="arch" type="xml">
+                <!-- Kanban colors -->
                 <field name="sequence" position="after">
                     <field name='color'/>
                     <div class="openerp oe_kanban_view">
@@ -22,6 +23,10 @@
                         <span class="oe_kanban_color_9" style="padding:0 11px;">9</span>
                     </div>
                 </field>
+                <!-- Link to sale subscription -->
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="sale_subscription_id" attrs="{'invisible':[('sale_subscription_id', '=', False)]}"/>
+                </xpath>
             </field>
         </record>
     </data>

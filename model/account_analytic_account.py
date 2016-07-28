@@ -1,21 +1,23 @@
 from openerp import models, fields, api
 import datetime
 from datetime import date
-    
+
 class account_analytic_account_improvements(models.Model):
     _inherit = ['sale.subscription']
 
     timesheet_product_price = fields.Float("Hourly Rate")
     contract_type = fields.Many2one('sale.subscription.type', string="Type", index=True)
     contract_team = fields.Many2one('sale.subscription.team', string="Team", index=True)
-    contract_type_product_name = fields.Char(compute='_get_product_name',string="Product name", store=False)
-    number_of_timesheets = fields.Integer(compute='_compute_number_of_timesheets',string="Number of timesheets", store=False)
-    total_invoice_amount = fields.Float(compute='_compute_total_invoice_amount',string="Total invoice amount", store=False)
-    computed_units_consumed = fields.Float(compute='_compute_units_consumed',string="Units Consumed", store=False)
-    computed_units_remaining = fields.Float(compute='_compute_units_remaining',string="Units Remaining", store=False)
-    total_invoice_amount_info = fields.Char(compute='_compute_total_invoice_amount_info',string="Total invoice amount", store=False)
+    contract_type_product_name = fields.Char(compute='_get_product_name', string="Product name", store=False)
+    number_of_timesheets = fields.Integer(compute='_compute_number_of_timesheets', string="Number of timesheets", store=False)
+    total_invoice_amount = fields.Float(compute='_compute_total_invoice_amount', string="Total invoice amount", store=False)
+    computed_units_consumed = fields.Float(compute='_compute_units_consumed', string="Units Consumed", store=False)
+    computed_units_remaining = fields.Float(compute='_compute_units_remaining', string="Units Remaining", store=False)
+    total_invoice_amount_info = fields.Char(compute='_compute_total_invoice_amount_info', string="Total invoice amount", store=False)
     contractual_minimum_amount = fields.Float(string="Contractual minimum amount", store=True)
     quantity_max = fields.Float(string="Prepaid Service Unit")
+    use_project = fields.Boolean(compute='_get_use_project', string="Use Project", store=False)
+    project_id = fields.Many2one('project.project', compute="_compute_project", string="Project", index=True)
 
     state = fields.Selection([('template', 'Template'),
                               ('negociation','Negociation'),
@@ -41,7 +43,23 @@ class account_analytic_account_improvements(models.Model):
     @api.onchange('contract_type')
     def _get_price(self):
         self.timesheet_product_price = self.contract_type.timesheet_product.lst_price
-    
+
+    @api.one
+    @api.onchange('contract_type')
+    def _get_use_project(self):
+        self.use_project = self.contract_type.use_project
+        self.analytic_account_id.write({'use_tasks': self.use_project})
+        self.analytic_account_id.write({'use_issues': self.use_project})
+
+    @api.one
+    @api.onchange('contract_type')
+    def _compute_project(self):
+        if self.use_project:
+            if self.analytic_account_id:
+                if len(self.analytic_account_id.project_ids) > 0:
+                    self.project_id = self.analytic_account_id.project_ids[0]
+                    self.project_id.write({'sale_subscription_id': self.id})
+
     @api.one
     @api.onchange('contract_type')
     def _get_product_name(self):
@@ -270,3 +288,9 @@ class account_analytic_account_improvements(models.Model):
             dict['value']['contractual_minimum_amount'] = template.contractual_minimum_amount
             dict['value']['quantity_max'] = template.contractual_minimum_amount * 2
         return dict
+
+class projects_project_improvements(models.Model):
+    _inherit = ['project.project']
+
+    sale_subscription_id = fields.Many2one('sale.subscription', string="Subscription / Contract", index=True)
+

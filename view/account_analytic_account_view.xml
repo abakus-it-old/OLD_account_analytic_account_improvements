@@ -17,6 +17,8 @@
                         <!-- Support Contract Info -->
                         <group string="Support Contract Settings" id="contract_settings">
                             <field name="contract_type" attrs="{'required':[('type', 'in', ['contract', 'template'])]}"/>
+                            <field name="use_project" />
+                            <field name="project_id" />
                             <field name="contractual_minimum_amount"/>
                             <field name="contract_type_product_name"/>
                             <field name="timesheet_product_price"/>

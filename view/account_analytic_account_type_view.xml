@@ -9,6 +9,7 @@
                     <field name="name"/>
                     <field name="timesheet_product"/>
                     <field name="contractual_minimum_amount"/>
+                    <field name="use_project" />
                 </tree>
             </field>
         </record>
@@ -23,6 +24,7 @@
                             <field name="name"/>
                             <field name="timesheet_product"/>
                             <field name="contractual_minimum_amount"/>
+                            <field name="use_project" />
                         </group>
                     </sheet>
                 </form>
