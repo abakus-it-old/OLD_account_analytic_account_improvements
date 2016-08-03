@@ -17,4 +17,14 @@ It adds:
       * task: Assigned to, Reviewer and task creator
       * issue: Assigned to, Contact and issue creator
 
+TODO:
+* Create Project Template
+
+odoo 9 Updates:
+* Invoiceable field (model + view integration) (not exists in odooV9)
+* issue/task stage managment in project view
+* project color managment in projet view
+* first_subscription_id for account.analytic.account
+* sale_subscription_id for account.analytic.line
+
 This module has been developed by Bernard Delhez, intern @ AbAKUS it-solutions, under the control of Valentin Thirion.
