@@ -220,7 +220,7 @@ class sale_subscription_improvements(models.Model):
         return False
         """
 
-        project_id = super(account_analytic_account_improvements, self).project_create(cr, uid, analytic_account_id, vals, context=context)
+        project_id = super(sale_subscription_improvements, self).project_create(cr, uid, analytic_account_id, vals, context=context)
         if project_id:
             project_project_obj = self.pool.get('project.project')
             project_project = project_project_obj.browse(cr, uid, project_id)
@@ -302,7 +302,7 @@ class sale_subscription_improvements(models.Model):
         return res
         """
 
-        dict = super(account_analytic_account_improvements, self).on_change_template(cr, uid, ids, template_id, date_start)
+        dict = super(sale_subscription_improvements, self).on_change_template(cr, uid, ids, template_id, date_start)
         if 'value' in dict:
             template = self.browse(cr, uid, template_id, context=context)
             dict['value']['contract_type'] = template.contract_type.id

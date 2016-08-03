@@ -1,7 +1,7 @@
 {
     'name': "AbAKUS contract improvements",
     'version': '9.0.1.0',
-    'depends': ['sale_contract'],
+    'depends': ['sale_contract', 'contract_timesheet_activities_on_site_management'],
     'author': "Bernard DELHEZ, AbAKUS it-solutions SARL",
     'website': "http://www.abakusitsolutions.eu",
     'category': 'Contract',
@@ -34,7 +34,8 @@ odoo 9 Updates:
     - sale_subscription_id for account.analytic.line
 
 This module has been developed by Bernard Delhez, intern @ AbAKUS it-solutions, under the control of Valentin Thirion.""",
-    'data': ['view/account_analytic_account_view.xml',
+    'data': ['view/sale_subscription_view.xml',
+             'view/account_analytic_account_view.xml',
              'view/account_analytic_account_type_view.xml',
              'view/account_analytic_account_team_view.xml',
              'view/project_project_view.xml',
