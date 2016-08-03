@@ -19,10 +19,15 @@
 #
 ##############################################################################
 
-import time
-
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
+
+from openerp import models, fields as newFields
+
+class account_analytic_line_new(models.Model):
+    _inherit = 'account.analytic.line'
+
+    sale_subscription_id = newFields.Many2one(comodel_name='sale.subscription',string="Subscription",related='account_id.first_subscription_id', store=False)
 
 class hr_timesheet_invoice_factor(osv.osv):
     _name = "hr_timesheet_invoice.factor"
@@ -36,7 +41,6 @@ class hr_timesheet_invoice_factor(osv.osv):
     _defaults = {
         'factor': lambda *a: 0.0,
     }
-
 
 class account_analytic_line(osv.osv):
     _inherit = 'account.analytic.line'
@@ -312,10 +316,10 @@ class account_move_line(osv.osv):
         analytic_line_obj = self.pool.get('account.analytic.line')
         for move_line in self.browse(cr, uid, ids, context=context):
             #For customer invoice, link analytic line to the invoice so it is not proposed for invoicing in Bill Tasks Work
-            invoice_id = move_line.invoice and move_line.invoice.type in ('out_invoice','out_refund') and move_line.invoice.id or False
-            for line in move_line.analytic_lines:
+            invoice_id = move_line.invoice_id and move_line.invoice_id.type in ('out_invoice','out_refund') and move_line.invoice_id or False
+            for line in move_line.analytic_line_ids:
                 analytic_line_obj.write(cr, uid, line.id, {
-                    'invoice_id': invoice_id,
-                    'to_invoice': line.account_id.to_invoice and line.account_id.to_invoice.id or False
+                    'invoice_id': invoice_id.id,
+                    'to_invoice': line.to_invoice.id or False
                     }, context=context)
         return res

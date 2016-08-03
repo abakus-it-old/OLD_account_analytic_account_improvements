@@ -7,22 +7,30 @@
             <field name="inherit_id" ref="project.edit_project"/>
             <field name="arch" type="xml">
                 <!-- Kanban colors -->
-                <field name="sequence" position="after">
-                    <field name='color'/>
-                    <div class="openerp oe_kanban_view">
-                        Colors: 
-                        <span class="oe_kanban_color_0" style="padding:0 11px;">0</span>
-                        <span class="oe_kanban_color_1" style="padding:0 11px;">1</span>
-                        <span class="oe_kanban_color_2" style="padding:0 11px;">2</span>
-                        <span class="oe_kanban_color_3" style="padding:0 11px;">3</span>
-                        <span class="oe_kanban_color_4" style="padding:0 11px;">4</span>
-                        <span class="oe_kanban_color_5" style="padding:0 11px;">5</span>
-                        <span class="oe_kanban_color_6" style="padding:0 11px;">6</span>
-                        <span class="oe_kanban_color_7" style="padding:0 11px;">7</span>
-                        <span class="oe_kanban_color_8" style="padding:0 11px;">8</span>
-                        <span class="oe_kanban_color_9" style="padding:0 11px;">9</span>
-                    </div>
-                </field>
+                <group name="misc" position="before">
+                    <group name="types">
+                        <field name='type_ids'/>
+                    </group>
+                    <group>
+                        <field name='color'/>
+
+                        <div class="o_kanban_view">
+                            <div class="o_kanban_group">
+                                Colors:
+                                <span class="oe_kanban_color_0" style="padding:0 11px;">0</span>
+                                <span class="oe_kanban_color_1" style="padding:0 11px;">1</span>
+                                <span class="oe_kanban_color_2" style="padding:0 11px;">2</span>
+                                <span class="oe_kanban_color_3" style="padding:0 11px;">3</span>
+                                <span class="oe_kanban_color_4" style="padding:0 11px;">4</span>
+                                <span class="oe_kanban_color_5" style="padding:0 11px;">5</span>
+                                <span class="oe_kanban_color_6" style="padding:0 11px;">6</span>
+                                <span class="oe_kanban_color_7" style="padding:0 11px;">7</span>
+                                <span class="oe_kanban_color_8" style="padding:0 11px;">8</span>
+                                <span class="oe_kanban_color_9" style="padding:0 11px;">9</span>
+                            </div>
+                        </div>
+                    </group>
+                </group>
                 <!-- Link to sale subscription -->
                 <xpath expr="//field[@name='partner_id']" position="after">
                     <field name="sale_subscription_id" attrs="{'invisible':[('sale_subscription_id', '=', False)]}"/>

@@ -44,7 +44,18 @@
                 <xpath expr="//notebook[last()]" position="inside">
                     <page string="Lines">
                         <group string="Lines for this contract" id="contract_lines">
-                            <field name="line_ids" />
+                            <field name="line_ids">
+                                <tree>
+                                    <field name="date" />
+                                    <field name="user_id" />
+                                    <field name="name" />
+                                    <!--<field name="on_site" />-->
+                                    <field name="account_id" />
+                                    <field name="unit_amount" />
+                                    <field name="to_invoice" />
+                                    <field name="amount" />
+                                </tree>
+                            </field>
                         </group>
                     </page>
                 </xpath>

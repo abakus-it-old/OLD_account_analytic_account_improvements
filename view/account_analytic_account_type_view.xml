@@ -3,7 +3,7 @@
 	<data>
         <record model="ir.ui.view" id="account_analytic_account_type_tree_view">
             <field name="name">contract.type.tree</field>
-            <field name="model">sale.subscription.type</field>
+            <field name="model">account.analytic.account.type</field>
             <field name="arch" type="xml">
                 <tree string="Type Form">
                     <field name="name"/>
@@ -16,7 +16,7 @@
 
         <record model="ir.ui.view" id="account_analytic_account_type_form_view">
             <field name="name">contract.type.form</field>
-            <field name="model">sale.subscription.type</field>
+            <field name="model">account.analytic.account.type</field>
             <field name="arch" type="xml">
                 <form string="Contract Type">
                     <sheet>
@@ -25,6 +25,7 @@
                             <field name="timesheet_product"/>
                             <field name="contractual_minimum_amount"/>
                             <field name="use_project" />
+                            <field name="project_template_id" attrs="{'invisible':[('use_project','=', False)]}"/>
                         </group>
                     </sheet>
                 </form>
@@ -33,7 +34,7 @@
 
         <record model="ir.actions.act_window" id="contract_type_action">
             <field name="name">Contract Types</field>
-            <field name="res_model">sale.subscription.type</field>
+            <field name="res_model">account.analytic.account.type</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>

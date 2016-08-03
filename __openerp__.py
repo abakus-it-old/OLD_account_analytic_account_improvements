@@ -1,6 +1,6 @@
 {
     'name': "AbAKUS contract improvements",
-    'version': '1.0.1',
+    'version': '9.0.1.0',
     'depends': ['sale_contract'],
     'author': "Bernard DELHEZ, AbAKUS it-solutions SARL",
     'website': "http://www.abakusitsolutions.eu",
@@ -22,6 +22,16 @@ It adds:
             - project: none
             - task: Assigned to, Reviewer and task creator
             - issue: Assigned to, Contact and issue creator
+
+TODO:
+    - Create Project Template
+
+odoo 9 Updates:
+    - Invoiceable field (model + view integration) (not exists in odooV9)
+    - issue/task stage managment in project view
+    - project color managment in projet view
+    - first_subscription_id for account.analytic.account
+    - sale_subscription_id for account.analytic.line
 
 This module has been developed by Bernard Delhez, intern @ AbAKUS it-solutions, under the control of Valentin Thirion.""",
     'data': ['view/account_analytic_account_view.xml',

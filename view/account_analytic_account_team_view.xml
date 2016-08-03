@@ -3,7 +3,7 @@
 	<data>
         <record model="ir.ui.view" id="account_analytic_account_team_tree_view">
             <field name="name">contract.team.tree</field>
-            <field name="model">sale.subscription.team</field>
+            <field name="model">account.analytic.account.team</field>
             <field name="arch" type="xml">
                 <tree string="Type Form">
                     <field name="name"/>
@@ -16,7 +16,7 @@
 
         <record model="ir.ui.view" id="account_analytic_account_team_form_view">
             <field name="name">contract.team.form</field>
-            <field name="model">sale.subscription.team</field>
+            <field name="model">account.analytic.account.team</field>
             <field name="arch" type="xml">
                 <form string="Contract Team">
                     <sheet>
@@ -33,7 +33,7 @@
         
         <record model="ir.actions.act_window" id="contract_team_action">
             <field name="name">Contract Teams</field>
-            <field name="res_model">sale.subscription.team</field>
+            <field name="res_model">account.analytic.account.team</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
