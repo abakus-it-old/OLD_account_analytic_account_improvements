@@ -1,10 +1,5 @@
 from openerp import models, fields, api
 import datetime
-from datetime import date
-#ONLY FOR DEBUG
-import logging
-_logger = logging.getLogger(__name__)
-#_logger.debug('\n : '+ str())
 
 class sale_subscription_improvements(models.Model):
     _inherit = ['sale.subscription']
@@ -90,8 +85,6 @@ class sale_subscription_improvements(models.Model):
         price = self.timesheet_product_price
         travel_cost = 0
         cr = self.env.cr
-        #uid = self.env.user.id
-        #account_analytic_line = self.pool.get('account.analytic.line')
 
         if self.on_site_invoice_by_km:
             travel_cost = self.on_site_product.lst_price * self.on_site_distance_in_km
@@ -116,8 +109,6 @@ class sale_subscription_improvements(models.Model):
 
             #check if line amount is ok, else set the computed amount
             if line.amount == 0:
-                #account_analytic_line.write(cr, uid, line.id, {'amount': computed_amount})
-
                 cr.execute("update account_analytic_line set amount=%s where id=%s" % (str(computed_amount), str(line.id)))
                 cr.commit()
 

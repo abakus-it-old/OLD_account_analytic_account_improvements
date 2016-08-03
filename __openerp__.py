@@ -40,5 +40,6 @@ This module has been developed by Bernard Delhez, intern @ AbAKUS it-solutions, 
              'view/account_analytic_account_team_view.xml',
              'view/project_project_view.xml',
              'view/account_analytic_line_view.xml',
+             'view/project_issue_view.xml',
              'security/ir.model.access.csv',],
 }

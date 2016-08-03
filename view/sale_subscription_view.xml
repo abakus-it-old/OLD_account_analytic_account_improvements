@@ -2,7 +2,41 @@
 <openerp>
 	<data>
         <record model="ir.ui.view" id="sale_subscription_contract_improvements">
-            <field name="name">sale_subscription_contract_improvements</field>
+            <field name="name">sale_subscription_on_site_product</field>
+            <field name="model">sale.subscription</field>
+            <field name="inherit_id" ref="contract_timesheet_activities_on_site_management.sale_subscription_on_site_product"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@id='on_site_settings']" position="before">
+                    <!-- Support Contract Info -->
+                    <group string="Support Contract Settings" id="contract_settings">
+                        <field name="contract_type" attrs="{'required':[('type', 'in', ['contract', 'template'])]}"/>
+                        <field name="use_project" />
+                        <field name="project_id" />
+                        <field name="contractual_minimum_amount"/>
+                        <field name="contract_type_product_name"/>
+                        <field name="timesheet_product_price"/>
+                        <field name="contract_team"/>
+                    </group>
+                        <!-- Invoicing and status -->
+                    <group string="Invoicing Support Contract" id="invoicing_support_contract">
+                        <field name="quantity_max" />
+                        <div attrs="{'invisible': [('computed_units_consumed','=',0)]}" class="oe_grey">
+                            <field name="computed_units_consumed" class="oe_inline"/> Units Consumed
+                        </div>
+                        <div attrs="{'invisible': [('computed_units_remaining','=',0)]}" class="oe_grey">
+                            <field name="computed_units_remaining" class="oe_inline"/> Units Remaining
+                        </div>
+                        <field name="number_of_timesheets"/>
+                        <field name="total_invoice_amount" invisible="1"/>
+                        <field name="total_invoice_amount_info"/>
+                        <button name="create_invoice" type="object" string="Create invoice" class="oe_highlight" attrs="{'invisible':[('total_invoice_amount','&gt;=',0)]}"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="sale_subscription_contract_improvements2">
+            <field name="name">sale_subscription_contract_improvements2</field>
             <field name="model">sale.subscription</field>
             <field name="inherit_id" ref="sale_contract.sale_subscription_view_form"/>
             <field name="arch" type="xml">
@@ -12,34 +46,6 @@
                     <attribute name="readonly">0</attribute>
                     <attribute name="clickable">True</attribute>
                 </field>
-                <xpath expr="//group[@name='main']" position="after">
-                    <group>
-                        <!-- Support Contract Info -->
-                        <group string="Support Contract Settings" id="contract_settings">
-                            <field name="contract_type" attrs="{'required':[('type', 'in', ['contract', 'template'])]}"/>
-                            <field name="use_project" />
-                            <field name="project_id" />
-                            <field name="contractual_minimum_amount"/>
-                            <field name="contract_type_product_name"/>
-                            <field name="timesheet_product_price"/>
-                            <field name="contract_team"/>
-                        </group>
-                            <!-- Invoicing and status -->
-                        <group string="Invoicing Support Contract" id="invoicing_support_contract">
-                            <field name="quantity_max" />
-                            <div attrs="{'invisible': [('computed_units_consumed','=',0)]}" class="oe_grey">
-                                <field name="computed_units_consumed" class="oe_inline"/> Units Consumed
-                            </div>
-                            <div attrs="{'invisible': [('computed_units_remaining','=',0)]}" class="oe_grey">
-                                <field name="computed_units_remaining" class="oe_inline"/> Units Remaining
-                            </div>
-                            <field name="number_of_timesheets"/>
-                            <field name="total_invoice_amount" invisible="1"/>
-                            <field name="total_invoice_amount_info"/>
-                            <button name="create_invoice" type="object" string="Create invoice" class="oe_highlight" attrs="{'invisible':[('total_invoice_amount','&gt;=',0)]}"/>
-                        </group>
-                    </group>
-                </xpath>
                 <!-- Show timesheet lines for the contract -->
                 <xpath expr="//notebook[last()]" position="inside">
                     <page string="Lines">
@@ -49,10 +55,10 @@
                                     <field name="date" />
                                     <field name="user_id" />
                                     <field name="name" />
-                                    <!--<field name="on_site" />-->
+                                    <field name="on_site" />
                                     <field name="account_id" />
                                     <field name="unit_amount" />
-                                    <field name="to_invoice" />
+                                    <!--<field name="to_invoice" />-->
                                     <field name="amount" />
                                 </tree>
                             </field>
