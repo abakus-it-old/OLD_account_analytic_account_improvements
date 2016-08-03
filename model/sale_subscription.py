@@ -302,8 +302,3 @@ class sale_subscription_improvements(models.Model):
             dict['value']['contractual_minimum_amount'] = template.contractual_minimum_amount
             dict['value']['quantity_max'] = template.contractual_minimum_amount * 2
         return dict
-
-class projects_project_improvements(models.Model):
-    _inherit = ['project.project']
-
-    sale_subscription_id = fields.Many2one('sale.subscription', string="Subscription / Contract")
