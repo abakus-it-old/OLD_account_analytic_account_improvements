@@ -18,6 +18,7 @@ class account_analytic_line(models.Model):
     invoice_id = fields.Many2one(comodel_name='account.invoice', string='Invoice')
     to_invoice = fields.Many2one(comodel_name='hr_timesheet_invoice.factor', string='Invoiceable', help="It allows to set the discount while making invoice, keep empty if the activities should not be invoiced.")
 
+    """
     @api.v7
     def write(self, cr, uid, ids, vals, context=None):
         self._check_inv(cr, uid, ids, vals)
@@ -33,6 +34,7 @@ class account_analytic_line(models.Model):
                 if line.invoice_id:
                     raise exceptions.Warning(_('Error!'), _('You cannot modify an invoiced analytic line!'))
         return True
+    """
 
 class account_invoice(models.Model):
     _inherit = "account.invoice"
