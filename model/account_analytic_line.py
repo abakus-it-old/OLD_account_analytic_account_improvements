@@ -57,16 +57,13 @@ class account_invoice(models.Model):
 class account_move_line(models.Model):
     _inherit = "account.move.line"
 
-    @api.v7
-    def create_analytic_lines(self, cr, uid, ids, context=None):
-        res = super(account_move_line, self).create_analytic_lines(cr, uid, ids,context=context)
-        analytic_line_obj = self.pool.get('account.analytic.line')
-        for move_line in self.browse(cr, uid, ids, context=context):
+    @api.multi
+    def create_analytic_lines(self):
+        res = super(account_move_line, self).create_analytic_lines()
+        for move_line in self:
             #For customer invoice, link analytic line to the invoice so it is not proposed for invoicing in Bill Tasks Work
-            invoice_id = move_line.invoice_id and move_line.invoice_id.type in ('out_invoice','out_refund') and move_line.invoice_id or False
+            invoice_id = move_line.invoice_id and move_line.invoice_id.type in ('out_invoice', 'out_refund') and move_line.invoice_id or False
             for line in move_line.analytic_line_ids:
-                analytic_line_obj.write(cr, uid, line.id, {
-                    'invoice_id': invoice_id.id,
-                    'to_invoice': line.to_invoice.id or False
-                    }, context=context)
+                line.invoice_id = invoice_id.id
+                line.to_invoice = line.to_invoice.id or False
         return res
