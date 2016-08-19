@@ -63,7 +63,9 @@ class account_move_line(models.Model):
         for move_line in self:
             #For customer invoice, link analytic line to the invoice so it is not proposed for invoicing in Bill Tasks Work
             invoice_id = move_line.invoice_id and move_line.invoice_id.type in ('out_invoice', 'out_refund') and move_line.invoice_id or False
-            for line in move_line.analytic_line_ids:
-                line.invoice_id = invoice_id.id
-                line.to_invoice = line.to_invoice.id or False
+            # Only if 'invoice_id' exists because lines could be created outside an invoice system, for instance in expenses
+            if invoice_id:
+            	for line in move_line.analytic_line_ids:
+	                line.invoice_id = invoice_id.id
+                	line.to_invoice = line.to_invoice.id or False
         return res
