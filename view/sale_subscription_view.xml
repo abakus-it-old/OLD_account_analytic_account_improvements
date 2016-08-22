@@ -56,7 +56,6 @@
                                     <field name="user_id" />
                                     <field name="name" />
                                     <field name="on_site" />
-                                    <field name="account_id" />
                                     <field name="unit_amount" />
                                     <!--<field name="to_invoice" />-->
                                     <field name="amount" />
