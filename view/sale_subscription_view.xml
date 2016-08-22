@@ -67,5 +67,16 @@
                 </xpath>
             </field>
         </record>
+
+	<record model="ir.ui.view" id="sale_subscription_improvement_list">
+            <field name="name">sale_subscription_improvement_list</field>
+            <field name="model">sale.subscription</field>
+            <field name="inherit_id" ref="sale_contract.sale_subscription_view_list" />
+            <field name="arch" type="xml">
+                <xpath expr="field[@name='display_name']" position="before">
+                    <field name="contract_type" />
+                </xpath>
+            </field>
+        </record>
     </data>
 </openerp>
