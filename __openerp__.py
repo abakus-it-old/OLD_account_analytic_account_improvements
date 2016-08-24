@@ -1,6 +1,8 @@
+# -*- coding: utf-8 -*-
+
 {
     'name': "AbAKUS contract improvements",
-    'version': '9.0.1.0',
+    'version': '9.0.1.1',
     'depends': ['sale_contract', 'contract_timesheet_activities_on_site_management'],
     'author': "Bernard DELHEZ, AbAKUS it-solutions SARL",
     'website': "http://www.abakusitsolutions.eu",
@@ -32,14 +34,16 @@ odoo 9 Updates:
     - project color managment in projet view
     - first_subscription_id for account.analytic.account
     - sale_subscription_id for account.analytic.line
+    - New model sale.subscription.shared that contains a common start and end date
 
 This module has been developed by Bernard Delhez, intern @ AbAKUS it-solutions, under the control of Valentin Thirion.""",
-    'data': ['view/sale_subscription_view.xml',
-             'view/account_analytic_account_view.xml',
-             'view/account_analytic_account_type_view.xml',
-             'view/account_analytic_account_team_view.xml',
-             'view/project_project_view.xml',
-             'view/account_analytic_line_view.xml',
-             'view/project_issue_view.xml',
+    'data': ['views/sale_subscription_view.xml',
+             'views/account_analytic_account_view.xml',
+             'views/account_analytic_account_type_view.xml',
+             'views/account_analytic_account_team_view.xml',
+             'views/project_project_view.xml',
+             'views/account_analytic_line_view.xml',
+             'views/project_issue_view.xml',
+             'data/sale_subscription_shared_data.xml',
              'security/ir.model.access.csv',],
 }

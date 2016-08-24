@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from openerp import models, fields
 
 class projects_project_improvements(models.Model):

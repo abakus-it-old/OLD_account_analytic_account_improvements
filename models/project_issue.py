@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from openerp import models, api
 
 class project_issue_add_partner_id_to_followers(models.Model):

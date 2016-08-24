@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from openerp import models, fields, api
 
 class account_analytic_account_improvements(models.Model):

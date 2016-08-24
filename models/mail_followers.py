@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from openerp.osv import osv
 
 class mail_followers_remove_project_followers(osv.Model):
