@@ -26,5 +26,7 @@ odoo 9 Updates:
 * project color managment in projet view
 * first_subscription_id for account.analytic.account
 * sale_subscription_id for account.analytic.line
+* New model sale.subscription.shared that contains a common start and end date
+
 
 This module has been developed by Bernard Delhez, intern @ AbAKUS it-solutions, under the control of Valentin Thirion.

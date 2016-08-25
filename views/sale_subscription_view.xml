@@ -10,14 +10,15 @@
                     <!-- Support Contract Info -->
                     <group string="Support Contract Settings" id="contract_settings">
                         <field name="contract_type" attrs="{'required':[('type', 'in', ['contract', 'template'])]}"/>
-                        <field name="use_project" />
-                        <field name="project_id" />
+                        <!--<field name="baseline"/>-->
+                        <field name="use_project"/>
+                        <field name="project_id"/>
                         <field name="contractual_minimum_amount"/>
                         <field name="contract_type_product_name"/>
                         <field name="timesheet_product_price"/>
                         <field name="contract_team"/>
                     </group>
-                        <!-- Invoicing and status -->
+                    <!-- Invoicing and status --> <!--attrs="{'invisible': [('baseline', '=', True)]}"-->
                     <group string="Invoicing Support Contract" id="invoicing_support_contract">
                         <field name="quantity_max" />
                         <div attrs="{'invisible': [('computed_units_consumed','=',0)]}" class="oe_grey">

@@ -3,7 +3,7 @@
 from openerp import models, fields, api
 
 class account_analytic_account_improvements(models.Model):
-    _inherit = ['account.analytic.account']
+    _inherit = 'account.analytic.account'
 
     first_subscription_id = fields.Many2one(comodel_name='sale.subscription',string="Subscription",compute='_compute_first_subscription')
 

@@ -4,8 +4,8 @@ from openerp import models, fields, api
 import datetime
 
 class sale_subscription_improvements(models.Model):
-    _inherit = ['sale.subscription']
-
+    _inherit = 'sale.subscription'
+    
     timesheet_product_price = fields.Float("Hourly Rate")
     contract_type = fields.Many2one('account.analytic.account.type', string="Type")
     contract_team = fields.Many2one('account.analytic.account.team', string="Team")
@@ -28,7 +28,16 @@ class sale_subscription_improvements(models.Model):
                               ('close','Closed'),
                               ('cancelled', 'Cancelled'),
                               ('refused','Refused')], default='negociation')
+    
+    baseline = fields.Boolean(compute='_compute_is_baseline', string="Baseline contract", store=False)
 
+    @api.one
+    @api.depends('contract_type')
+    def _compute_is_baseline(self):
+        if self.contract_type:
+            self.is_baseline = self.contract_type.is_baseline
+        self.is_baseline = False
+                              
     @api.one
     def _compute_units_consumed(self):
         total = 0

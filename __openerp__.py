@@ -2,7 +2,7 @@
 
 {
     'name': "AbAKUS contract improvements",
-    'version': '9.0.1.1',
+    'version': '9.0.1.2',
     'depends': ['sale_contract', 'contract_timesheet_activities_on_site_management'],
     'author': "Bernard DELHEZ, AbAKUS it-solutions SARL",
     'website': "http://www.abakusitsolutions.eu",

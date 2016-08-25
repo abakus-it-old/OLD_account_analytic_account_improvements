@@ -8,6 +8,7 @@
                 <tree string="Type Form">
                     <field name="name"/>
                     <field name="timesheet_product"/>
+                    <field name="is_baseline" />
                     <field name="contractual_minimum_amount"/>
                     <field name="use_project" />
                 </tree>
@@ -23,6 +24,7 @@
                         <group>
                             <field name="name"/>
                             <field name="timesheet_product"/>
+                            <field name="is_baseline" />
                             <field name="contractual_minimum_amount"/>
                             <field name="use_project" />
                             <field name="project_template_id" attrs="{'invisible':[('use_project','=', False)]}"/>
