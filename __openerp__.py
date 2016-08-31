@@ -2,7 +2,7 @@
 
 {
     'name': "AbAKUS contract improvements",
-    'version': '9.0.1.2',
+    'version': '9.0.1.3',
     'depends': ['sale_contract', 'contract_timesheet_activities_on_site_management'],
     'author': "Bernard DELHEZ, AbAKUS it-solutions SARL",
     'website': "http://www.abakusitsolutions.eu",
@@ -35,6 +35,7 @@ odoo 9 Updates:
     - first_subscription_id for account.analytic.account
     - sale_subscription_id for account.analytic.line
     - New model sale.subscription.shared that contains a common start and end date
+    - Contracts types must contain a 'BL' in name in order to have some fields and groups shown in form
 
 This module has been developed by Bernard Delhez, intern @ AbAKUS it-solutions, under the control of Valentin Thirion.""",
     'data': ['views/sale_subscription_view.xml',
