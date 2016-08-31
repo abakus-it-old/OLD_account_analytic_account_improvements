@@ -10,16 +10,15 @@
                     <!-- Support Contract Info -->
                     <group string="Support Contract Settings" id="contract_settings">
                         <field name="contract_type" attrs="{'required':[('type', 'in', ['contract', 'template'])]}"/>
-                        <!--<field name="baseline"/>-->
-                        <field name="use_project"/>
-                        <field name="project_id"/>
-                        <field name="contractual_minimum_amount"/>
-                        <field name="contract_type_product_name"/>
-                        <field name="timesheet_product_price"/>
+                        <field name="use_project" attrs="{'invisible': [('contract_type', 'NOT LIKE', 'BL')]}"/>
+                        <field name="project_id" attrs="{'invisible': [('use_project', '=', False)]}"/>
+                        <field name="contractual_minimum_amount" attrs="{'invisible': [('contract_type', 'NOT LIKE', 'BL')]}"/>
+                        <field name="contract_type_product_name" attrs="{'invisible': [('contract_type', 'NOT LIKE', 'BL')]}"/>
+                        <field name="timesheet_product_price" attrs="{'invisible': [('contract_type', 'NOT LIKE', 'BL')]}"/>
                         <field name="contract_team"/>
                     </group>
-                    <!-- Invoicing and status --> <!--attrs="{'invisible': [('baseline', '=', True)]}"-->
-                    <group string="Invoicing Support Contract" id="invoicing_support_contract">
+                    <!-- Invoicing and status -->
+                    <group string="Invoicing Support Contract" id="invoicing_support_contract" attrs="{'invisible': [('contract_type', 'NOT LIKE', 'BL')]}">
                         <field name="quantity_max" />
                         <div attrs="{'invisible': [('computed_units_consumed','=',0)]}" class="oe_grey">
                             <field name="computed_units_consumed" class="oe_inline"/> Units Consumed
@@ -58,7 +57,6 @@
                                     <field name="name" />
                                     <field name="on_site" />
                                     <field name="unit_amount" />
-                                    <!--<field name="to_invoice" />-->
                                     <field name="amount" />
                                 </tree>
                             </field>
