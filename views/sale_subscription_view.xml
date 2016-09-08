@@ -18,7 +18,7 @@
                         <field name="contract_team"/>
                     </group>
                     <!-- Invoicing and status -->
-                    <group string="Invoicing Support Contract" id="invoicing_support_contract" attrs="{'invisible': [('contract_type', 'NOT LIKE', 'BL')]}">
+                    <group string="Invoicing Support Contract" id="invoicing_support_contract">
                         <field name="quantity_max" />
                         <div attrs="{'invisible': [('computed_units_consumed','=',0)]}" class="oe_grey">
                             <field name="computed_units_consumed" class="oe_inline"/> Units Consumed
